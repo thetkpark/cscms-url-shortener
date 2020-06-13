@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
+import validator from 'validator'
 import { CosmosDB } from '../db/CosmosDB'
 import sha256 from 'crypto-js/sha256'
 
@@ -12,13 +13,15 @@ export const createShortUrl = async (
 	next: NextFunction
 ) => {
 	try {
+		if (!validator.isURL(req.body.url)) {
+			res.status(400).send({ error: 'Not a valid url' })
+			return
+		}
 		const now: Date = new Date()
 		const hashedUrl: string = sha256(now.getTime() + req.body.url).toString()
-		console.log(hashedUrl)
 		let shortenUrl = ''
 		for (let i = 1; i <= 6; i++) {
 			const index = Math.round(Math.random() * hashedUrl.length)
-			console.log(index)
 			shortenUrl += hashedUrl.charAt(index)
 		}
 

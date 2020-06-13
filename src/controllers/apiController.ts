@@ -48,7 +48,11 @@ export const getLongUrlResponse = async (
 	next: NextFunction
 ) => {
 	try {
-		const shortUrl = req.query.url
+		if (!req.query.url) {
+			res.status(400).send({ error: 'The shorten url is required' })
+			return
+		}
+		const shortUrl: string = req.query.url.toString().toLowerCase()
 		console.log(shortUrl)
 		const cosmos = new CosmosDB()
 		const container = await cosmos.getUrlContainer()
@@ -57,10 +61,12 @@ export const getLongUrlResponse = async (
 				query: `SELECT url1.longurl FROM url1 WHERE url1.shorturl = "${shortUrl}"`
 			})
 			.fetchAll()
-
+		if (resources.length === 0) {
+			res.status(404).send()
+			return
+		}
 		const longUrl = resources[0].longurl
-		if (longUrl) res.send({ url: longUrl })
-		else res.status(404).send()
+		res.send({ url: longUrl })
 	} catch (e) {
 		res.status(500).send({ error: e })
 	}

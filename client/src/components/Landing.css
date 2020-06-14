@@ -1,8 +1,23 @@
 #landing {
-	background-color: #759CC9;
+	background-color: #fcfcfc;
 	width: 100vw;
 	height: 100vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	flex-direction: column;
+}
+h1 {
+	letter-spacing: 4px;
+	font-size: 4rem;
+}
+#url {
+	width: 40%;
+	height: 7%;
+}
+#actionBtn {
+	margin: 25px;
+}
+.btnSpace {
+	padding: 0 15px;
 }

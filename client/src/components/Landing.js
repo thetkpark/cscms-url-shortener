@@ -1,11 +1,16 @@
 import React, { Component } from 'react'
+import * as actions from '../actions'
+import { connect } from 'react-redux'
 import Modal from './Modal.js'
 import './Landing.css'
 
 class Landing extends Component {
-	state = { displayModal: false, type: '' }
-	getShorten = () => {
+	state = { displayModal: false, type: '', url: '' }
+	getShorten = async () => {
+		console.log(this.props);
+		await this.props.createShorten(this.state.url);
 		this.setState({ displayModal: true, type: 'shorten' })
+		console.log(this.state.url)
 	}
 	getOriginal = () => {
 		this.setState({ displayModal: true, type: 'original' })
@@ -24,12 +29,21 @@ class Landing extends Component {
 			return null
 		}
 	}
+	handleChange = event => {
+		this.setState({ url: event.target.value })
+	}
 	render() {
 		return (
 			<div id="landing">
 				<h1>cscms url shortener</h1>
 				<div className="ui input" id="url">
-					<input type="text" placeholder="Enter your url" focus="true" />
+					<input
+						type="text"
+						placeholder="Enter your url"
+						focus="true"
+						value={this.state.url}
+						onChange={this.handleChange}
+					/>
 				</div>
 				<div id="actionBtn">
 					<span className="btnSpace">
@@ -55,4 +69,4 @@ class Landing extends Component {
 	}
 }
 
-export default Landing
+export default connect(null, actions)(Landing)

@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 class Modal extends Component {
+	state = { value: 'hello test' }
 	copy = () => {
 		//copy text to clipboard
 		this.props.onDimiss()
@@ -19,13 +21,12 @@ class Modal extends Component {
 					<div className="header">This is your {this.props.title} url</div>
 					<div className="content">Content</div>
 					<div className="actions">
-						<div
-							className="ui positive right labeled icon button"
-							onClick={this.props.copy}
-						>
-							Copy
-							<i className="copy icon"></i>
-						</div>
+						<CopyToClipboard text={this.state.value} onCopy={this.copy}>
+							<div className="ui positive right labeled icon button">
+								Copy
+								<i className="copy icon"></i>
+							</div>
+						</CopyToClipboard>
 					</div>
 				</div>
 			</div>,

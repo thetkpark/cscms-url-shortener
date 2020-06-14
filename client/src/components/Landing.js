@@ -3,21 +3,21 @@ import Modal from './Modal.js'
 import './Landing.css'
 
 class Landing extends Component {
-	state = { displayModal: false }
+	state = { displayModal: false, type: '' }
 	getShorten = () => {
-		this.setState({ displayModal: true })
+		this.setState({ displayModal: true, type: 'shorten' })
 	}
 	getOriginal = () => {
-		this.setState({ displayModal: true })
+		this.setState({ displayModal: true, type: 'original' })
 	}
 	closeModal = () => {
-		this.setState({ displayModal: false })
+		this.setState({ displayModal: false, type: '' })
 	}
 	renderModal() {
 		if (this.state.displayModal) {
 			return (
 				<div>
-					<Modal onDimiss={this.closeModal}></Modal>
+					<Modal onDimiss={this.closeModal} title={this.state.type}></Modal>
 				</div>
 			)
 		} else {

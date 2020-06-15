@@ -3,10 +3,17 @@ import * as actions from '../actions'
 import { connect } from 'react-redux'
 import Modal from './Modal.js'
 import Loading from './Loading'
+import Warning from './Warning'
 import './Landing.css'
 
 class Landing extends Component {
-	state = { displayModal: false, type: '', url: '', loading: false }
+	state = {
+		displayModal: false,
+		type: '',
+		url: '',
+		loading: false,
+		displayWarning: false
+	}
 	getShorten = async () => {
 		this.setState({ loading: true })
 		await this.props.createShorten(this.state.url)
@@ -14,6 +21,7 @@ class Landing extends Component {
 		if (this.props.success) {
 			this.setState({ displayModal: true, type: 'shorten' })
 		} else {
+			this.setState({ displayWarning: true })
 		}
 	}
 	getOriginal = async () => {
@@ -23,10 +31,14 @@ class Landing extends Component {
 		if (this.props.success) {
 			this.setState({ displayModal: true, type: 'original' })
 		} else {
+			this.setState({ displayWarning: true })
 		}
 	}
 	closeModal = () => {
 		this.setState({ displayModal: false, type: '' })
+	}
+	closeWarning = () => {
+		this.setState({ displayWarning: false })
 	}
 	renderModal() {
 		if (this.state.displayModal) {
@@ -46,6 +58,13 @@ class Landing extends Component {
 	renderLoading() {
 		if (this.state.loading) {
 			return <Loading></Loading>
+		} else {
+			return null
+		}
+	}
+	renderWarning() {
+		if (this.state.displayWarning) {
+			return <Warning onDimiss={this.closeWarning}></Warning>
 		} else {
 			return null
 		}
@@ -86,6 +105,7 @@ class Landing extends Component {
 					</span>
 				</div>
 				{this.renderModal()}
+				{this.renderWarning()}
 			</div>
 		)
 	}

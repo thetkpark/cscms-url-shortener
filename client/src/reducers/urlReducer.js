@@ -4,7 +4,6 @@ const INITIAL_STATE = {
 	success: false
 }
 export default function (state = INITIAL_STATE, action) {
-	console.log('action ', action)
 	switch (action.type) {
 		case CREATE_SHORTEN:
 			return action.payload

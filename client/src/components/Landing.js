@@ -89,7 +89,7 @@ class Landing extends Component {
 				<div id="actionBtn">
 					<span className="btnSpace">
 						<button
-							className="large ui blue button"
+							className="myBtn ui blue button"
 							onClick={this.getShorten}
 						>
 							Get shorten url
@@ -97,7 +97,7 @@ class Landing extends Component {
 					</span>
 					<span className="btnSpace">
 						<button
-							className="large ui grey button"
+							className="myBtn ui grey button"
 							onClick={this.getOriginal}
 						>
 							Retrieve original url

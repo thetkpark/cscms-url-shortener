@@ -13,11 +13,48 @@ h1 {
 }
 #url {
 	width: 40%;
-	height: 7%;
+	height: 50px;
 }
 #actionBtn {
 	margin: 25px;
 }
 .btnSpace {
 	padding: 0 15px;
+}
+.myBtn {
+	padding: 18px !important;
+}
+
+@media screen and (max-width: 900px) {
+	#url {
+		width: 60%;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	h1 {
+		font-size: 2rem;
+		letter-spacing: 1px;
+	}
+	#url {
+		width: 80%;
+	}
+	.btnSpace {
+		padding: 0 3px;
+	}
+}
+
+@media screen and (max-width: 400px) {
+	.myBtn {
+		padding: 10px !important;
+	}
+	.btnSpace {
+		padding: 0;
+	}
+}
+
+@media screen and (max-width: 300px) {
+	.myBtn {
+		padding: 8px !important;
+	}
 }

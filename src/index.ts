@@ -1,7 +1,7 @@
-import { app } from './app'
+import { server } from './app'
 
 const port = process.env.PORT || 3050
 
-app.listen(port, (): void => {
+server.listen(port, (): void => {
 	console.log(`Running on ${port}`)
 })

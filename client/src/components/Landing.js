@@ -11,18 +11,19 @@ class Landing extends Component {
 		this.setState({ loading: true })
 		await this.props.createShorten(this.state.url)
 		this.setState({ loading: false })
-		console.log(this.props.answer)
-		console.log(this.props.host)
-		console.log(this.props.success)
 		if (this.props.success) {
 			this.setState({ displayModal: true, type: 'shorten' })
+		} else {
 		}
 	}
 	getOriginal = async () => {
 		this.setState({ loading: true })
 		await this.props.getOriginal(this.state.url)
 		this.setState({ loading: false })
-		this.setState({ displayModal: true, type: 'original' })
+		if (this.props.success) {
+			this.setState({ displayModal: true, type: 'original' })
+		} else {
+		}
 	}
 	closeModal = () => {
 		this.setState({ displayModal: false, type: '' })
@@ -34,7 +35,7 @@ class Landing extends Component {
 					<Modal
 						onDimiss={this.closeModal}
 						title={this.state.type}
-						content={`${this.props.host}${this.props.answer}`}
+						content={`${this.props.answer}`}
 					></Modal>
 				</div>
 			)
@@ -93,7 +94,6 @@ class Landing extends Component {
 const mapStateToProps = state => {
 	return {
 		answer: state.url.answer,
-		host: state.url.host,
 		success: state.url.success
 	}
 }

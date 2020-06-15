@@ -3,9 +3,7 @@ import ReactDOM from 'react-dom'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 class Modal extends Component {
-	state = { value: 'hello test' }
 	copy = () => {
-		//copy text to clipboard
 		this.props.onDimiss()
 	}
 	render() {
@@ -25,7 +23,10 @@ class Modal extends Component {
 						</a>
 					</div>
 					<div className="actions">
-						<div className="ui blue deny right labeled icon button">
+						<div
+							className="ui blue deny right labeled icon button"
+							onClick={this.props.onDimiss}
+						>
 							<a
 								style={{ textDecoration: 'none', color: 'white' }}
 								href={this.props.content}

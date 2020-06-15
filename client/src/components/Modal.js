@@ -18,7 +18,11 @@ class Modal extends Component {
 				>
 					<div className="header">This is your {this.props.title} url</div>
 					<div className="content">
-						<a href={this.props.content} target="_blank">
+						<a
+							href={this.props.content}
+							target="_blank"
+							rel="noopener noreferrer"
+						>
 							{this.props.content}
 						</a>
 					</div>
@@ -31,6 +35,7 @@ class Modal extends Component {
 								style={{ textDecoration: 'none', color: 'white' }}
 								href={this.props.content}
 								target="_blank"
+								rel="noopener noreferrer"
 							>
 								Open link
 							</a>

@@ -2,12 +2,15 @@ import React, { Component } from 'react'
 import * as actions from '../actions'
 import { connect } from 'react-redux'
 import Modal from './Modal.js'
+import Loading from './Loading'
 import './Landing.css'
 
 class Landing extends Component {
-	state = { displayModal: false, type: '', url: '' }
+	state = { displayModal: false, type: '', url: '', loading: false }
 	getShorten = async () => {
+		this.setState({ loading: true })
 		await this.props.createShorten(this.state.url)
+		this.setState({ loading: false })
 		console.log(this.props.answer)
 		console.log(this.props.host)
 		console.log(this.props.success)
@@ -16,7 +19,9 @@ class Landing extends Component {
 		}
 	}
 	getOriginal = async () => {
+		this.setState({ loading: true })
 		await this.props.getOriginal(this.state.url)
+		this.setState({ loading: false })
 		this.setState({ displayModal: true, type: 'original' })
 	}
 	closeModal = () => {
@@ -37,12 +42,20 @@ class Landing extends Component {
 			return null
 		}
 	}
+	renderLoading() {
+		if (this.state.loading) {
+			return <Loading></Loading>
+		} else {
+			return null
+		}
+	}
 	handleChange = event => {
 		this.setState({ url: event.target.value })
 	}
 	render() {
 		return (
 			<div id="landing">
+				{this.renderLoading()}
 				<h1>cscms url shortener</h1>
 				<div className="ui input" id="url">
 					<input

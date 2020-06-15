@@ -26,10 +26,16 @@ class Modal extends Component {
 					</div>
 					<div className="actions">
 						<div className="ui blue deny right labeled icon button">
-							Open link
+							<a
+								style={{ textDecoration: 'none', color: 'white' }}
+								href={this.props.content}
+								target="_blank"
+							>
+								Open link
+							</a>
 							<i className="share icon"></i>
 						</div>
-						<CopyToClipboard text={this.state.value} onCopy={this.copy}>
+						<CopyToClipboard text={this.props.content} onCopy={this.copy}>
 							<div className="ui positive right labeled icon button">
 								Copy
 								<i className="copy icon"></i>

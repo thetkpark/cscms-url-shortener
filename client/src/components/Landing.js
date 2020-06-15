@@ -7,12 +7,16 @@ import './Landing.css'
 class Landing extends Component {
 	state = { displayModal: false, type: '', url: '' }
 	getShorten = async () => {
-		console.log(this.props);
-		await this.props.createShorten(this.state.url);
-		this.setState({ displayModal: true, type: 'shorten' })
-		console.log(this.state.url)
+		await this.props.createShorten(this.state.url)
+		console.log(this.props.answer)
+		console.log(this.props.host)
+		console.log(this.props.success)
+		if (this.props.success) {
+			this.setState({ displayModal: true, type: 'shorten' })
+		}
 	}
-	getOriginal = () => {
+	getOriginal = async () => {
+		await this.props.getOriginal(this.state.url)
 		this.setState({ displayModal: true, type: 'original' })
 	}
 	closeModal = () => {
@@ -22,7 +26,11 @@ class Landing extends Component {
 		if (this.state.displayModal) {
 			return (
 				<div>
-					<Modal onDimiss={this.closeModal} title={this.state.type}></Modal>
+					<Modal
+						onDimiss={this.closeModal}
+						title={this.state.type}
+						content={`${this.props.host}${this.props.answer}`}
+					></Modal>
 				</div>
 			)
 		} else {
@@ -69,4 +77,11 @@ class Landing extends Component {
 	}
 }
 
-export default connect(null, actions)(Landing)
+const mapStateToProps = state => {
+	return {
+		answer: state.url.answer,
+		host: state.url.host,
+		success: state.url.success
+	}
+}
+export default connect(mapStateToProps, actions)(Landing)

@@ -19,8 +19,16 @@ class Modal extends Component {
 					onClick={e => e.stopPropagation()}
 				>
 					<div className="header">This is your {this.props.title} url</div>
-					<div className="content">Content</div>
+					<div className="content">
+						<a href={this.props.content} target="_blank">
+							{this.props.content}
+						</a>
+					</div>
 					<div className="actions">
+						<div className="ui blue deny right labeled icon button">
+							Open link
+							<i className="share icon"></i>
+						</div>
 						<CopyToClipboard text={this.state.value} onCopy={this.copy}>
 							<div className="ui positive right labeled icon button">
 								Copy

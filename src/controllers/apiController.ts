@@ -17,6 +17,8 @@ export const createShortUrl = async (
 			res.status(400).send({ error: 'Not a valid url' })
 			return
 		}
+		const cosmos = new CosmosDB()
+		const container = await cosmos.getUrlContainer()
 		const now: Date = new Date()
 		const hashedUrl: string = sha256(now.getTime() + req.body.url).toString()
 		let shortenUrl = ''
@@ -30,8 +32,6 @@ export const createShortUrl = async (
 			shorturl: shortenUrl
 		}
 
-		const cosmos = new CosmosDB()
-		const container = await cosmos.getUrlContainer()
 		container.items.create(urls)
 
 		res.send({

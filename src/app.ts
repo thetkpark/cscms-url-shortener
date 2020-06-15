@@ -7,7 +7,7 @@ import { rootRouter } from './routes/rootRoutes'
 
 export const app = express()
 
-app.use(express.static('web'))
+app.use(express.static('client/build'))
 app.use(cors())
 app.use(helmet())
 app.use(bodyParser.json())

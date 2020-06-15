@@ -33,7 +33,7 @@ h1 {
 
 @media screen and (max-width: 600px) {
 	h1 {
-		font-size: 2rem;
+		font-size: 2.5rem;
 		letter-spacing: 1px;
 	}
 	#url {
@@ -45,6 +45,9 @@ h1 {
 }
 
 @media screen and (max-width: 400px) {
+	h1 {
+		font-size: 2rem;
+	}
 	.myBtn {
 		padding: 10px !important;
 	}

@@ -17,14 +17,25 @@ export const createShortUrl = async (
 			res.status(400).send({ error: 'Not a valid url' })
 			return
 		}
+		let unique: boolean = false
 		const cosmos = new CosmosDB()
 		const container = await cosmos.getUrlContainer()
 		const now: Date = new Date()
 		const hashedUrl: string = sha256(now.getTime() + req.body.url).toString()
-		let shortenUrl = ''
-		for (let i = 1; i <= 6; i++) {
-			const index = Math.round(Math.random() * hashedUrl.length)
-			shortenUrl += hashedUrl.charAt(index)
+		let shortenUrl: string = ''
+		while (!unique) {
+			for (let i = 1; i <= 6; i++) {
+				const index = Math.round(Math.random() * hashedUrl.length)
+				shortenUrl += hashedUrl.charAt(index)
+			}
+			const { resources } = await container.items
+				.query({
+					query: `SELECT url1.longurl FROM url1 WHERE url1.shorturl = "${shortenUrl}"`
+				})
+				.fetchAll()
+			if (resources.length === 0) {
+				unique = true
+			}
 		}
 
 		const urls = {

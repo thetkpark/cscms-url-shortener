@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import validator from 'validator'
-import { CosmosDB } from '../db/CosmosDB'
-import sha256 from 'crypto-js/sha256'
+import { getCosmosContainer } from '../db/CosmosDB'
+import { generateToken } from '../util/generateToken';
 
 type newUrlRequestBody = {
 	url: string
@@ -17,17 +17,11 @@ export const createShortUrl = async (
 			res.status(400).send({ error: 'Not a valid url' })
 			return
 		}
+		const container = await getCosmosContainer()
 		let unique: boolean = false
-		const cosmos = new CosmosDB()
-		const container = await cosmos.getUrlContainer()
-		const now: Date = new Date()
-		const hashedUrl: string = sha256(now.getTime() + req.body.url).toString()
 		let shortenUrl: string = ''
 		while (!unique) {
-			for (let i = 1; i <= 6; i++) {
-				const index = Math.round(Math.random() * hashedUrl.length)
-				shortenUrl += hashedUrl.charAt(index)
-			}
+			shortenUrl = await generateToken()
 			const { resources } = await container.items
 				.query({
 					query: `SELECT url1.longurl FROM url1 WHERE url1.shorturl = "${shortenUrl}"`
@@ -37,14 +31,13 @@ export const createShortUrl = async (
 				unique = true
 			}
 		}
-
+		
 		const urls = {
 			longurl: req.body.url,
 			shorturl: shortenUrl
 		}
 
-		container.items.create(urls)
-
+		await container.items.create(urls)
 		res.send({
 			shortUrl: shortenUrl
 		})
@@ -64,8 +57,7 @@ export const getLongUrlResponse = async (
 			return
 		}
 		const shortUrl: string = req.query.url.toString().toLowerCase()
-		const cosmos = new CosmosDB()
-		const container = await cosmos.getUrlContainer()
+		const container = await getCosmosContainer()
 		const { resources } = await container.items
 			.query({
 				query: `SELECT url1.longurl FROM url1 WHERE url1.shorturl = "${shortUrl}"`

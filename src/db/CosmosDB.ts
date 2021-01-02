@@ -1,8 +1,8 @@
-import { CosmosClient } from '@azure/cosmos'
+import { Container, CosmosClient } from '@azure/cosmos'
 import dotenv from 'dotenv'
 dotenv.config()
 
-export class CosmosDB {
+class CosmosDB {
 	endpoint: string = ''
 	key: string = ''
 	client: CosmosClient
@@ -22,4 +22,10 @@ export class CosmosDB {
 		})
 		return container
 	}
+}
+
+export const getCosmosContainer = async ():Promise<Container> => {
+	const cosmos:CosmosDB = new CosmosDB()
+	const container = await cosmos.getUrlContainer()
+	return container
 }

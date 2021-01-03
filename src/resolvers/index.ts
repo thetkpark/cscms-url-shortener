@@ -1,8 +1,12 @@
-import longUrlQuery from './queries/index'
+import quries from './queries/index'
+import mutations from './mutations/index'
 
 const resolvers = {
 	Query: {
-		getLongUrl: longUrlQuery
+		...quries
+	},
+	Mutation: {
+		...mutations
 	}
 }
 

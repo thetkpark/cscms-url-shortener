@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import validator from 'validator'
 import { getCosmosContainer } from '../db/CosmosDB'
-import { generateToken } from '../util/generateToken';
+import { generateUniqueToken } from '../util/generateToken'
 
 type newUrlRequestBody = {
 	url: string
@@ -18,20 +18,8 @@ export const createShortUrl = async (
 			return
 		}
 		const container = await getCosmosContainer()
-		let unique: boolean = false
-		let shortenUrl: string = ''
-		while (!unique) {
-			shortenUrl = await generateToken()
-			const { resources } = await container.items
-				.query({
-					query: `SELECT url1.longurl FROM url1 WHERE url1.shorturl = "${shortenUrl}"`
-				})
-				.fetchAll()
-			if (resources.length === 0) {
-				unique = true
-			}
-		}
-		
+		const shortenUrl = await generateUniqueToken()
+
 		const urls = {
 			longurl: req.body.url,
 			shorturl: shortenUrl

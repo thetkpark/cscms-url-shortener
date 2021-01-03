@@ -13,4 +13,4 @@ const longUrlQuery = async (_, { shortenPath }) => {
 	return url
 }
 
-export default longUrlQuery
+export default { getLongUrl: longUrlQuery }

@@ -5,6 +5,10 @@ const schema = gql`
 		getLongUrl(shortenPath: String!): URL!
 	}
 
+	type Mutation {
+		shortenUrl(url: String!, prefer: String): URL!
+	}
+
 	type URL {
 		longUrl: String!
 		shortUrl: String!

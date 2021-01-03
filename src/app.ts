@@ -20,7 +20,8 @@ app.use(rootRouter)
 // GraphQL
 const server = new ApolloServer({
 	typeDefs: schema,
-	resolvers
+	resolvers,
+	playground: true
 })
 server.applyMiddleware({ app })
 console.log(server.graphqlPath)

@@ -2,20 +2,34 @@ import { Request, Response, NextFunction } from 'express'
 import { getCosmosContainer } from '../db/CosmosDB'
 import { Container } from '@azure/cosmos'
 
+interface URL {
+	longurl: string
+	shorturl: string
+	id: string
+	visit: number
+}
+
 export const getLongUrl = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const shortUrl: string = req.params.shortUrl.toLowerCase()
 		const container: Container = await getCosmosContainer()
 		const { resources } = await container.items
 			.query({
-				query: `SELECT url1.longurl FROM url1 WHERE url1.shorturl = "${shortUrl}"`
+				query: `SELECT * FROM url1 WHERE url1.shorturl = "${shortUrl}"`
 			})
 			.fetchAll()
 		if (resources.length === 0) {
-			res.status(404).send()
-			return
+			return res.status(404).send()
 		}
-		const longUrl = resources[0].longurl
+		const url: URL = resources[0]
+
+		if (!url.visit) {
+			url.visit = 1
+		} else url.visit += 1
+
+		await container.item(url.id).replace(url)
+
+		const longUrl = url.longurl
 		res.redirect(longUrl)
 	} catch (e) {
 		res.status(500).send({ error: e })

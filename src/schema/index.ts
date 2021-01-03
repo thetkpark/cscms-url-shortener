@@ -12,6 +12,7 @@ const schema = gql`
 	type URL {
 		longUrl: String!
 		shortUrl: String!
+		visit: Int
 	}
 `
 

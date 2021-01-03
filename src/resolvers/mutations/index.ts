@@ -18,12 +18,14 @@ const shortenUrl = async (_, { url: longurl, prefer }) => {
 
 	const url = {
 		longUrl: longurl,
-		shortUrl: shortenUrl
+		shortUrl: shortenUrl,
+		visit: 0
 	}
 
 	await container.items.create({
 		longurl,
-		shorturl: shortenUrl
+		shorturl: shortenUrl,
+		visit: 0
 	})
 	return url
 }

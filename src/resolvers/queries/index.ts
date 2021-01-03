@@ -8,7 +8,8 @@ const longUrlQuery = async (_, { shortenPath }) => {
 
 	const url = {
 		longUrl: urls.resources[0].longurl,
-		shortUrl: urls.resources[0].shorturl
+		shortUrl: urls.resources[0].shorturl,
+		visit: urls.resources[0].visit ? urls.resources[0].visit : 0
 	}
 	return url
 }

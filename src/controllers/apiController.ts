@@ -64,15 +64,18 @@ export const getLongUrlResponse = async (
 		const container = await getCosmosContainer()
 		const { resources } = await container.items
 			.query({
-				query: `SELECT url1.longurl FROM url1 WHERE url1.shorturl = "${shortUrl}"`
+				query: `SELECT * FROM url1 WHERE url1.shorturl = "${shortUrl}"`
 			})
 			.fetchAll()
 		if (resources.length === 0) {
 			res.status(404).send()
 			return
 		}
-		const longUrl = resources[0].longurl
-		res.send({ url: longUrl })
+		res.send({
+			url: resources[0].longurl,
+			shortenUrl: req.query.url,
+			visit: resources[0].visit ? resources[0].visit : 0
+		})
 	} catch (e) {
 		res.status(500).send({ error: e })
 	}

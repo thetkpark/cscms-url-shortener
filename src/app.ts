@@ -21,6 +21,7 @@ app.use(rootRouter)
 const server = new ApolloServer({
 	typeDefs: schema,
 	resolvers,
+	introspection: true,
 	playground: true
 })
 server.applyMiddleware({ app })

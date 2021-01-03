@@ -5,6 +5,7 @@ import { generateUniqueToken } from '../util/generateToken'
 
 type newUrlRequestBody = {
 	url: string
+	prefer: string
 }
 
 export const createShortUrl = async (
@@ -17,12 +18,27 @@ export const createShortUrl = async (
 			res.status(400).send({ error: 'Not a valid url' })
 			return
 		}
+		const prefer = req.body.prefer
 		const container = await getCosmosContainer()
-		const shortenUrl = await generateUniqueToken()
+		let shortenUrl: string
+
+		if (prefer) {
+			const existingURL = await container.items
+				.query(`SELECT * FROM url1 WHERE url1.shorturl = "${prefer}"`)
+				.fetchAll()
+			if (existingURL.resources.length !== 0)
+				return res
+					.status(400)
+					.send({ success: false, error: `'${prefer}' has been used` })
+			shortenUrl = prefer
+		} else {
+			shortenUrl = await generateUniqueToken()
+		}
 
 		const urls = {
 			longurl: req.body.url,
-			shorturl: shortenUrl
+			shorturl: shortenUrl,
+			visit: 0
 		}
 
 		await container.items.create(urls)

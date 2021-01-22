@@ -42,7 +42,7 @@ export const createShortUrl = async (
 		}
 
 		await container.items.create(urls)
-		res.send({
+		res.status(201).send({
 			shortUrl: shortenUrl
 		})
 	} catch (e) {

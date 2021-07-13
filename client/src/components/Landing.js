@@ -11,12 +11,17 @@ class Landing extends Component {
 		displayModal: false,
 		type: '',
 		url: '',
+		slug: '',
 		loading: false,
 		displayWarning: false
 	}
 	getShorten = async () => {
 		this.setState({ loading: true })
-		await this.props.createShorten(this.state.url)
+		if (this.state.slug !== '') {
+			await this.props.createShortenWithSlug(this.state.url, this.state.slug)
+		} else {
+			await this.props.createShorten(this.state.url)
+		}
 		this.setState({ loading: false })
 		if (this.props.success) {
 			this.setState({ displayModal: true, type: 'shorten' })
@@ -72,6 +77,9 @@ class Landing extends Component {
 	handleChange = event => {
 		this.setState({ url: event.target.value })
 	}
+	handleChangeSlug = event => {
+		this.setState({ slug: event.target.value })
+	}
 	render() {
 		return (
 			<div id="landing">
@@ -80,10 +88,18 @@ class Landing extends Component {
 				<div className="ui input" id="url">
 					<input
 						type="text"
+						id="input-url"
 						placeholder="Enter your url"
 						focus="true"
 						value={this.state.url}
 						onChange={this.handleChange}
+					/>
+					<input
+						id="input-slug"
+						type="text"
+						placeholder="Slug"
+						value={this.state.slug}
+						onChange={this.handleChangeSlug}
 					/>
 				</div>
 				<div id="actionBtn">

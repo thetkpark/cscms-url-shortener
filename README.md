@@ -1,5 +1,5 @@
 # CSCMS URL Shortener
-
+[![Backend Build Test](https://github.com/thetkpark/cscms-url-shortener/actions/workflows/backend-build-test.yml/badge.svg)](https://github.com/thetkpark/cscms-url-shortener/actions/workflows/backend-build-test.yml)[![Client Build Test](https://github.com/thetkpark/cscms-url-shortener/actions/workflows/client-build-test.yml/badge.svg)](https://github.com/thetkpark/cscms-url-shortener/actions/workflows/client-build-test.yml)[![CodeQL](https://github.com/thetkpark/cscms-url-shortener/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/thetkpark/cscms-url-shortener/actions/workflows/codeql-analysis.yml)
 > A simple URL shortener build for aka.cscms.me powered by Azure Cosmos DB
 
 ## Prerequisite

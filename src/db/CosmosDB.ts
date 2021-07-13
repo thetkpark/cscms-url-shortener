@@ -22,10 +22,24 @@ class CosmosDB {
 		})
 		return container
 	}
+
+	async getTestUrlContainer() {
+		const { database } = await this.client.databases.createIfNotExists({ id: 'url' })
+		const { container } = await database.containers.createIfNotExists({
+			id: 'test-url'
+		})
+		return container
+	}
 }
 
-export const getCosmosContainer = async ():Promise<Container> => {
-	const cosmos:CosmosDB = new CosmosDB()
+export const getCosmosContainer = async (): Promise<Container> => {
+	const cosmos: CosmosDB = new CosmosDB()
 	const container = await cosmos.getUrlContainer()
+	return container
+}
+
+export const getCosmosTestContainer = async (): Promise<Container> => {
+	const cosmos: CosmosDB = new CosmosDB()
+	const container = await cosmos.getTestUrlContainer()
 	return container
 }

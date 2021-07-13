@@ -1,4 +1,4 @@
-name: Client Build Test
+name: Backend Build Test
 
 on:
   push:
@@ -19,10 +19,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: yarn --cwd client
+    - run: yarn
       name: Install Dependencies
-    - run: yarn --cwd client build
+    - run: yarn build
       name: Build 
-      env:
-        SKIP_PREFLIGHT_CHECK: true
-        

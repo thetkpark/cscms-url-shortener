@@ -9,7 +9,7 @@
 		"build-both": "backpack build && yarn --cwd client build",
 		"build": "backpack build",
 		"start": "node build/main.js",
-		"test": "jest --no-cache"
+		"test": "jest --no-cache --runInBand"
 	},
 	"jest": {
 		"preset": "ts-jest",

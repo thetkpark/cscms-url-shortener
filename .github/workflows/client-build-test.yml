@@ -19,9 +19,9 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: yarn install
+    - run: yarn --cwd client
       name: Install Dependencies
-    - run: yarn build
+    - run: yarn --cwd client build
       name: Build 
       env:
         SKIP_PREFLIGHT_CHECK: true

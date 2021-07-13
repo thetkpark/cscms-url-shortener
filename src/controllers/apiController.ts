@@ -24,7 +24,7 @@ export const createShortUrl = async (
 
 		if (prefer) {
 			const existingURL = await container.items
-				.query(`SELECT * FROM url1 WHERE url1.shorturl = "${prefer}"`)
+				.query(`SELECT * FROM c WHERE c.shorturl = "${prefer}"`)
 				.fetchAll()
 			if (existingURL.resources.length !== 0)
 				return res
@@ -64,7 +64,7 @@ export const getLongUrlResponse = async (
 		const container = await getCosmosContainer()
 		const { resources } = await container.items
 			.query({
-				query: `SELECT * FROM url1 WHERE url1.shorturl = "${shortUrl}"`
+				query: `SELECT * FROM c WHERE c.shorturl = "${shortUrl}"`
 			})
 			.fetchAll()
 		if (resources.length === 0) {

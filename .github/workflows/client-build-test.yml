@@ -20,4 +20,9 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: yarn install
+      name: Install Dependencies
     - run: yarn build
+      name: Build 
+      env:
+        SKIP_PREFLIGHT_CHECK: true
+        

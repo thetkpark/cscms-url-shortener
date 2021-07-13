@@ -5,8 +5,9 @@
 	"license": "MIT",
 	"scripts": {
 		"dev": "backpack",
-		"install": "yarn --cwd client --prod",
-		"build": "backpack build && yarn --cwd client build",
+		"install-both": "yarn && yarn --cwd client --prod",
+		"build-both": "backpack build && yarn --cwd client build",
+		"build": "backpack build",
 		"start": "node build/main.js"
 	},
 	"dependencies": {

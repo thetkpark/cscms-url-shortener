@@ -18,15 +18,7 @@ class CosmosDB {
 	async getUrlContainer() {
 		const { database } = await this.client.databases.createIfNotExists({ id: 'url' })
 		const { container } = await database.containers.createIfNotExists({
-			id: 'url1'
-		})
-		return container
-	}
-
-	async getTestUrlContainer() {
-		const { database } = await this.client.databases.createIfNotExists({ id: 'url' })
-		const { container } = await database.containers.createIfNotExists({
-			id: 'test-url'
+			id: process.env.NODE_ENV == 'test' ? 'test-url' : 'url1'
 		})
 		return container
 	}
@@ -35,11 +27,5 @@ class CosmosDB {
 export const getCosmosContainer = async (): Promise<Container> => {
 	const cosmos: CosmosDB = new CosmosDB()
 	const container = await cosmos.getUrlContainer()
-	return container
-}
-
-export const getCosmosTestContainer = async (): Promise<Container> => {
-	const cosmos: CosmosDB = new CosmosDB()
-	const container = await cosmos.getTestUrlContainer()
 	return container
 }

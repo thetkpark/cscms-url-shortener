@@ -1,6 +1,7 @@
-import { getCosmosTestContainer } from '../db/CosmosDB'
+import { getCosmosContainer } from '../db/CosmosDB'
 
 afterEach(async () => {
-	const container = await getCosmosTestContainer()
-	await container.delete()
+	const container = await getCosmosContainer()
+	console.log(container.url)
+	// await container.delete()
 })

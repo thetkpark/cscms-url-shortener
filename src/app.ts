@@ -25,4 +25,3 @@ const server = new ApolloServer({
 	playground: true
 })
 server.applyMiddleware({ app })
-console.log(server.graphqlPath)

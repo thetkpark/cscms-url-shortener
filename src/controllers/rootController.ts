@@ -15,11 +15,11 @@ export const getLongUrl = async (req: Request, res: Response, next: NextFunction
 		const container: Container = await getCosmosContainer()
 		const { resources } = await container.items
 			.query({
-				query: `SELECT * FROM url1 WHERE url1.shorturl = "${shortUrl}"`
+				query: `SELECT * FROM c WHERE c.shorturl = "${shortUrl}"`
 			})
 			.fetchAll()
 		if (resources.length === 0) {
-			return res.status(404).send()
+			return res.redirect(process.env.ENTRYPOINT!)
 		}
 		const url: URL = resources[0]
 

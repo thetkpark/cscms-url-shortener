@@ -10,6 +10,10 @@ import resolvers from './resolvers/index'
 
 export const app = express()
 
+if (!process.env.COSMOSDB_ENDPOINT) throw new Error('COSMOSDB_ENDPOINT env is required')
+if (!process.env.COSMOSDB_KEY) throw new Error('COSMOSDB_KEY env is required')
+if (!process.env.ENTRYPOINT) throw new Error('ENTRYPOINT env is required')
+
 app.use(express.static('client/build'))
 app.use(cors())
 app.use(helmet())
@@ -25,4 +29,3 @@ const server = new ApolloServer({
 	playground: true
 })
 server.applyMiddleware({ app })
-console.log(server.graphqlPath)

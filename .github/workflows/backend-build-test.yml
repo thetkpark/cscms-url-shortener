@@ -1,4 +1,4 @@
-name: Backend Build Test
+name: Backend Test and Build
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     strategy:
       matrix:
         node-version: [12.x, 14.x, 16.x]
@@ -19,7 +19,16 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: yarn
-      name: Install Dependencies
-    - run: yarn build
-      name: Build 
+    - name: Azure Cosmos DB Emulator
+      uses: southpolesteve/cosmos-emulator-github-action@v1
+    - name: Install Dependencies
+      run: yarn
+    - name: Run the tests 
+      run: yarn test
+      env:
+       COSMOSDB_ENDPOINT: https://localhost:8081
+       COSMOSDB_KEY: C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==
+       ENTRYPOINT: https://aka.cscms.me
+       NODE_TLS_REJECT_UNAUTHORIZED: 0
+    - name: Build
+      run: yarn build

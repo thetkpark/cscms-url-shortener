@@ -35,4 +35,12 @@ describe('Get and access the original URL from shorten URL', () => {
 		const res = await request(app).get(`/${preferedUrl}`).send().expect(302)
 		expect(res.headers.location).toEqual(originalUrl)
 	})
+
+	it('redirect to ENTRYPOINT if orignal is not found', async () => {
+		const res = await request(app)
+			.get(`/someThingThatWouldNotExist`)
+			.send()
+			.expect(302)
+		expect(res.headers.location).toEqual(process.env.ENTRYPOINT)
+	})
 })

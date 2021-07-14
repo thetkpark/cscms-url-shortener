@@ -3,9 +3,8 @@ import { app } from '../app'
 import { getCosmosContainer } from '../db/CosmosDB'
 
 describe('Get and access the original URL from shorten URL', () => {
-	const originalUrl =
-		'https://baconipsum.com/api/?type=all-meat&sentences=1&start-with-lorem=1'
-	const preferedUrl = 'bacon-lorem'
+	const originalUrl = 'https://google.com'
+	const preferedUrl = 'google'
 	beforeEach(async () => {
 		const container = await getCosmosContainer()
 		await container.items.create({
@@ -32,7 +31,7 @@ describe('Get and access the original URL from shorten URL', () => {
 		expect(res.body.shortenUrl).toEqual(preferedUrl)
 	})
 
-	it('can redirect use to original url', async () => {
+	it('can redirect user to original url', async () => {
 		const res = await request(app).get(`/${preferedUrl}`).send().expect(302)
 		expect(res.headers.location).toEqual(originalUrl)
 	})

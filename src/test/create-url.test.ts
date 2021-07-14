@@ -20,8 +20,7 @@ describe('Create new shorten URL', () => {
 	})
 
 	it('can create shorten url', async () => {
-		const originalUrl =
-			'https://baconipsum.com/api/?type=all-meat&sentences=1&start-with-lorem=1'
+		const originalUrl = 'https://google.com'
 		const res = await request(app)
 			.post('/api/newUrl')
 			.send({
@@ -41,9 +40,8 @@ describe('Create new shorten URL', () => {
 	})
 
 	it('can create shorten url with prefered name', async () => {
-		const originalUrl =
-			'https://baconipsum.com/api/?type=all-meat&sentences=1&start-with-lorem=1'
-		const preferedUrl = 'bacon'
+		const originalUrl = 'https://google.com'
+		const preferedUrl = 'google'
 		const res = await request(app)
 			.post('/api/newUrl')
 			.send({
@@ -65,9 +63,8 @@ describe('Create new shorten URL', () => {
 
 	it('return 400 if existing prefered name is provided', async () => {
 		const container = await getCosmosContainer()
-		const originalUrl =
-			'https://baconipsum.com/api/?type=all-meat&sentences=1&start-with-lorem=1'
-		const preferedUrl = 'bacon'
+		const originalUrl = 'https://google.com'
+		const preferedUrl = 'google'
 
 		await container.items.create({
 			longurl: originalUrl,

@@ -26,6 +26,7 @@ Provide the environment variable in the .env file
 > - COSMOSDB_ENDPOINT
 > - COSMOSDB_KEY
 > - PORT (Default to 3050)
+> - ENTRYPOINT
 
 ## Usage example
 

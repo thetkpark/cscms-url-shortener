@@ -11,7 +11,7 @@ export const generateUniqueToken = async (): Promise<string> => {
 		shortenUrl = await nanoid()
 		const { resources } = await container.items
 			.query({
-				query: `SELECT url1.longurl FROM url1 WHERE url1.shorturl = "${shortenUrl}"`
+				query: `SELECT c.longurl FROM c WHERE c.shorturl = "${shortenUrl}"`
 			})
 			.fetchAll()
 		if (resources.length === 0) {

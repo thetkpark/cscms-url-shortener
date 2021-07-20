@@ -19,3 +19,7 @@ export const generateUniqueToken = async (): Promise<string> => {
 		}
 	}
 }
+
+export const generateToken = () => {
+	return nanoid()
+}

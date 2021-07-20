@@ -1,6 +1,7 @@
 import request from 'supertest'
 import { app } from '../app'
 import { getCosmosContainer } from '../db/CosmosDB'
+import { generateToken, generateUniqueToken } from '../util/generateToken'
 
 describe('Create new shorten URL', () => {
 	it('return 400 if invalid URL is provided', async () => {
@@ -92,6 +93,41 @@ describe('Create new shorten URL', () => {
 			visit: 0
 		})
 
-		await request(app).post('/api/newUrl').send({ url: originalUrl }).expect(200)
+		const res = await request(app)
+			.post('/api/newUrl')
+			.send({ url: originalUrl })
+			.expect(200)
+		expect(res.body.shortUrl).toEqual(preferedUrl)
+	})
+
+	it('return existing unrandom shortUrl if it exists and no prefered url is provided', async () => {
+		const container = await getCosmosContainer()
+		const originalUrl = 'https://google.com'
+		const preferedUrl = 'googleUrl'
+
+		const shortUrl = await Promise.all([generateToken(), generateToken()])
+		await Promise.all([
+			await container.items.create({
+				longurl: originalUrl,
+				shorturl: shortUrl[0],
+				visit: 0
+			}),
+			await container.items.create({
+				longurl: originalUrl,
+				shorturl: shortUrl[1],
+				visit: 0
+			}),
+			await container.items.create({
+				longurl: originalUrl,
+				shorturl: preferedUrl,
+				visit: 0
+			})
+		])
+
+		const res = await request(app)
+			.post('/api/newUrl')
+			.send({ url: originalUrl })
+			.expect(200)
+		expect(res.body.shortUrl).toEqual(preferedUrl)
 	})
 })

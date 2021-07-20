@@ -80,4 +80,18 @@ describe('Create new shorten URL', () => {
 			})
 			.expect(400)
 	})
+
+	it('return existing shortUrl if it exists and no prefered url is provided', async () => {
+		const container = await getCosmosContainer()
+		const originalUrl = 'https://google.com'
+		const preferedUrl = 'google'
+
+		await container.items.create({
+			longurl: originalUrl,
+			shorturl: preferedUrl,
+			visit: 0
+		})
+
+		await request(app).post('/api/newUrl').send({ url: originalUrl }).expect(200)
+	})
 })

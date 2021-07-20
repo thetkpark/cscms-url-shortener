@@ -14,11 +14,12 @@ export const createShortUrl = async (
 	next: NextFunction
 ) => {
 	try {
-		if (!validator.isURL(req.body.url)) {
+		const { url: originalUrl, prefer } = req.body
+
+		if (!validator.isURL(originalUrl)) {
 			res.status(400).send({ error: 'Not a valid url' })
 			return
 		}
-		const prefer = req.body.prefer
 		const container = await getCosmosContainer()
 		let shortenUrl: string
 
@@ -32,11 +33,24 @@ export const createShortUrl = async (
 					.send({ success: false, error: `'${prefer}' has been used` })
 			shortenUrl = prefer
 		} else {
+			const existingURL = await container.items
+				.query(`SELECT * FROM c WHERE c.longurl = "${originalUrl}"`)
+				.fetchAll()
+			if (existingURL.resources.length !== 0) {
+				const slugShortenUrl = existingURL.resources.find(
+					el => el.shorturl.length !== 6
+				)
+				return res.status(200).send({
+					shortUrl: slugShortenUrl
+						? slugShortenUrl.shorturl
+						: existingURL.resources[0].shorturl
+				})
+			}
 			shortenUrl = await generateUniqueToken()
 		}
 
 		const urls = {
-			longurl: req.body.url,
+			longurl: originalUrl,
 			shorturl: shortenUrl,
 			visit: 0
 		}

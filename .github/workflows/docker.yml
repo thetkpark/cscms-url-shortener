@@ -31,4 +31,12 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+      - name: Trigger Deployment
+        uses: fjogeleit/http-request-action@v1.8.0
+        if: ${{ github.event_name != 'pull_request' }}
+        with:
+          url: https://api.github.com/repos/thetkpark/cscms-services-deployment/dispatches
+          method: POST
+          data: '{"event_type": "aka_cscms"}'
+          username: ${{secrets.ACCESS_TOKEN}}
 

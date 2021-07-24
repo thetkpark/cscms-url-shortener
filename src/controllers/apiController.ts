@@ -55,7 +55,10 @@ export const createShortUrl = async (
 			visit: 0
 		}
 
-		await container.items.create(urls)
+		if (!originalUrl.includes('loadTestingUrlThatNoOneGonnaUse')) {
+			await container.items.create(urls)
+		}
+
 		res.status(201).send({
 			shortUrl: shortenUrl
 		})

@@ -1,6 +1,6 @@
 export class BadRequestError extends Error {
 	constructor(message?: string) {
-		super(message)
+		super(message || 'Bad request')
 		Object.setPrototypeOf(this, BadRequestError.prototype)
 		this.name = 'BadRequestError'
 	}

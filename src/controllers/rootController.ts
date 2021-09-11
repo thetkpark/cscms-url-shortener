@@ -11,8 +11,9 @@ interface URL {
 
 export const getLongUrl = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const shortUrl: string = req.params.shortUrl.toLowerCase()
+		const shortUrl: string = req.params.shortUrl
 		const container: Container = await getCosmosContainer()
+
 		const { resources } = await container.items
 			.query({
 				query: `SELECT * FROM c WHERE c.shorturl = "${shortUrl}"`

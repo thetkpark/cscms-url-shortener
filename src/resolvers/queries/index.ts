@@ -6,7 +6,10 @@ const longUrlQuery = async (_, { shortenPath }) => {
 	try {
 		const container = await getCosmosContainer()
 		const urls = await container.items
-			.query(`SELECT * FROM url1 WHERE url1.shorturl = "${shortenPath}"`)
+			.query({
+				query: `SELECT * FROM c WHERE c.shortenPath = @shortenPath`,
+				parameters: [{ name: '@shortenPath', value: shortenPath }]
+			})
 			.fetchAll()
 		if (urls.resources.length === 0) throw new UserInputError('URL not found')
 		const url = {
@@ -16,7 +19,7 @@ const longUrlQuery = async (_, { shortenPath }) => {
 		}
 		return url
 	} catch (error) {
-		throw new ApolloError(error)
+		throw new ApolloError(error as string)
 	}
 }
 

@@ -1,25 +1,22 @@
 import { User } from '@azure/cosmos'
 import { UserInputError, ApolloError } from 'apollo-server-express'
 import { getCosmosContainer } from '../../db/CosmosDB'
+import { NotFoundError } from '../../errors/NotFoundError'
+import { getOriginalUrl } from '../../util/url'
 
 const longUrlQuery = async (_, { shortenPath }) => {
 	try {
-		const container = await getCosmosContainer()
-		const urls = await container.items
-			.query({
-				query: `SELECT * FROM c WHERE c.shortenPath = @shortenPath`,
-				parameters: [{ name: '@shortenPath', value: shortenPath }]
-			})
-			.fetchAll()
-		if (urls.resources.length === 0) throw new UserInputError('URL not found')
-		const url = {
-			longUrl: urls.resources[0].longurl,
-			shortUrl: urls.resources[0].shorturl,
-			visit: urls.resources[0].visit ? urls.resources[0].visit : 0
+		const urlData = await getOriginalUrl(shortenPath)
+		return {
+			longUrl: urlData.longurl,
+			shortUrl: urlData.shorturl,
+			visit: urlData.visit
 		}
-		return url
-	} catch (error) {
-		throw new ApolloError(error as string)
+	} catch (e) {
+		if (e instanceof NotFoundError) {
+			throw new UserInputError(e.message)
+		}
+		throw new ApolloError(e as string)
 	}
 }
 

@@ -16,7 +16,8 @@ export const getLongUrl = async (req: Request, res: Response, next: NextFunction
 
 		const { resources } = await container.items
 			.query({
-				query: `SELECT * FROM c WHERE c.shorturl = "${shortUrl}"`
+				query: `SELECT * FROM c WHERE c.shorturl = @shorturl`,
+				parameters: [{ name: '@shorturl', value: shortUrl }]
 			})
 			.fetchAll()
 		if (resources.length === 0) {

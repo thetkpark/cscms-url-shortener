@@ -25,7 +25,10 @@ export const createShortUrl = async (
 
 		if (prefer) {
 			const existingURL = await container.items
-				.query(`SELECT * FROM c WHERE c.shorturl = "${prefer}"`)
+				.query({
+					query: `SELECT * FROM c WHERE c.shorturl = @prefer`,
+					parameters: [{ name: '@prefer', value: prefer }]
+				})
 				.fetchAll()
 			if (existingURL.resources.length !== 0)
 				return res
@@ -34,7 +37,10 @@ export const createShortUrl = async (
 			shortenUrl = prefer
 		} else {
 			const existingURL = await container.items
-				.query(`SELECT * FROM c WHERE c.longurl = "${originalUrl}"`)
+				.query({
+					query: `SELECT * FROM c WHERE c.longurl = @originalUrl`,
+					parameters: [{ name: '@originalUrl', value: originalUrl }]
+				})
 				.fetchAll()
 			if (existingURL.resources.length !== 0) {
 				const slugShortenUrl = existingURL.resources.find(
@@ -77,11 +83,12 @@ export const getLongUrlResponse = async (
 			res.status(400).send({ error: 'The shorten url is required' })
 			return
 		}
-		const shortUrl: string = req.query.url.toString().toLowerCase()
+		const shortUrl: string = req.query.url.toString()
 		const container = await getCosmosContainer()
 		const { resources } = await container.items
 			.query({
-				query: `SELECT * FROM c WHERE c.shorturl = "${shortUrl}"`
+				query: `SELECT * FROM c WHERE c.shorturl = @shorturl`,
+				parameters: [{ name: '@shorturl', value: shortUrl }]
 			})
 			.fetchAll()
 		if (resources.length === 0) {

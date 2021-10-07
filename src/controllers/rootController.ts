@@ -9,7 +9,7 @@ export const getLongUrl = async (req: Request, res: Response, next: NextFunction
 		res.redirect(longurl)
 	} catch (e) {
 		if (e instanceof NotFoundError)
-			return res.redirect(process.env.ENTRYPOINT as string)
+			return res.redirect(process.env.ENTRYPOINT as string + "/404")
 		res.status(500).send({ error: e })
 	}
 }

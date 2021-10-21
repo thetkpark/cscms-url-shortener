@@ -26,7 +26,7 @@ class Modal extends Component {
 							{this.props.content}
 						</a>
 						<div style={{ width: '150px', height: '150px' }}>
-							<QRCode value={this.props.content} />
+							<QRCode value={this.props.content} size={150} />
 						</div>
 					</div>
 					<div className="actions">

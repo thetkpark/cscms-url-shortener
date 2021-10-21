@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-
+import QRCode from 'react-qr-code'
 class Modal extends Component {
 	copy = () => {
 		this.props.onDimiss()
@@ -25,6 +25,9 @@ class Modal extends Component {
 						>
 							{this.props.content}
 						</a>
+						<div style={{ width: '150px', height: '150px' }}>
+							<QRCode value={this.props.content} />
+						</div>
 					</div>
 					<div className="actions">
 						<div

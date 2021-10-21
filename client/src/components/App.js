@@ -9,6 +9,7 @@ class App extends Component {
 		return (
 			<div>
 				<BrowserRouter>
+					<Route exact path="/404" component={NotFound}></Route>
 					<Route exact path="/" component={Landing}></Route>
 					<Route component={NotFound}></Route>
 				</BrowserRouter>

@@ -30,7 +30,7 @@
 		"path": "^0.12.7",
 		"ts-loader": "^7.0.5",
 		"typescript": "^3.9.5",
-		"validator": "^13.1.1"
+		"validator": "^13.7.0"
 	},
 	"devDependencies": {
 		"@types/cors": "^2.8.6",

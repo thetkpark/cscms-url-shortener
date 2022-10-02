@@ -1,0 +1,3 @@
+name = "cscms-url-shortener"
+main = "src/index.ts"
+compatibility_date = "2022-10-02"

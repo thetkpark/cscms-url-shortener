@@ -1,0 +1,14 @@
+lockfileVersion: 5.4
+
+specifiers:
+  hono: ^2.2.3
+
+dependencies:
+  hono: 2.2.3
+
+packages:
+
+  /hono/2.2.3:
+    resolution: {integrity: sha512-Xtokmfyt7Np6S/FIqFAFRuu+7vU7juJF3ApmRjg5cQLsrVEO19icy2Ux/MJ5eV8sDzFgHUmUegI+O/zD4Cam9w==}
+    engines: {node: '>=16.0.0'}
+    dev: false

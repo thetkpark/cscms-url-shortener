@@ -12,7 +12,7 @@ const generator = customAlphabet("abcdefghijklmnopqrstuvwxyz0123456789", 5)
 
 api.post("/url", async (c) => {
 	const { url, slug } = await c.req.json()
-	if (!url || !isURL(url)) {
+	if (!url || !isURL(url, { require_protocol: true })) {
 		c.status(400)
 		return c.json({ error: "valid url is required" })
 	}

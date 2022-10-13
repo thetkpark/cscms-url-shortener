@@ -12,9 +12,14 @@ const app = new Hono<{ Bindings: ENV }>()
 app.route("/api", api)
 app.get("*", serveStatic({ root: "./" }))
 app.notFound(async (c) => {
-	const token = c.req.url.split("/").pop()
+	const splittedURL = c.req.url.split("/")
+	let token = splittedURL.pop()
+	if (token === "index.html") token = splittedURL.pop()
 	if (!token) return c.redirect("/")
-	const shortenURL = await getShortenURL(c.env.CSCMS_URL_SHORTENER, token)
+	const shortenURL = await getShortenURL(
+		c.env.CSCMS_URL_SHORTENER,
+		decodeURI(token)
+	)
 	if (!shortenURL) return c.redirect("/")
 	shortenURL.visit++
 	await saveShortenURL(c.env.CSCMS_URL_SHORTENER, shortenURL)

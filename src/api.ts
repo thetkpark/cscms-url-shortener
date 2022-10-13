@@ -1,7 +1,7 @@
 import { Hono } from "hono"
 import { cors } from "hono/cors"
 import { customAlphabet } from "nanoid"
-import { ENV } from "."
+import { ENV } from "./index"
 import { getShortenURL, ShortenURL, saveShortenURL } from "./kv"
 
 const api = new Hono<{ Bindings: ENV }>()
@@ -33,6 +33,20 @@ api.post("/url", async (c) => {
 	}
 	await saveShortenURL(c.env.CSCMS_URL_SHORTENER, shortenURL)
 	c.status(201)
+	return c.json(shortenURL)
+})
+
+api.get("/url", async (c) => {
+	const token = c.req.query("token")
+	if (!token) {
+		c.status(400)
+		return c.json({ error: "token is required" })
+	}
+	const shortenURL = await getShortenURL(c.env.CSCMS_URL_SHORTENER, token)
+	if (!shortenURL) {
+		c.status(404)
+		return c.json({ error: "not found" })
+	}
 	return c.json(shortenURL)
 })
 

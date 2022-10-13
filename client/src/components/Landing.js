@@ -1,30 +1,26 @@
-import React, { Component } from 'react'
-import * as actions from '../actions'
-import { connect } from 'react-redux'
-import Modal from './Modal.js'
-import Loading from './Loading'
-import Warning from './Warning'
-import './Landing.css'
+import React, { Component } from "react"
+import * as actions from "../actions"
+import { connect } from "react-redux"
+import Modal from "./Modal.js"
+import Loading from "./Loading"
+import Warning from "./Warning"
+import "./Landing.css"
 
 class Landing extends Component {
 	state = {
 		displayModal: false,
-		type: '',
-		url: '',
-		slug: '',
+		type: "",
+		url: "",
+		slug: "",
 		loading: false,
 		displayWarning: false
 	}
 	getShorten = async () => {
 		this.setState({ loading: true })
-		if (this.state.slug !== '') {
-			await this.props.createShortenWithSlug(this.state.url, this.state.slug)
-		} else {
-			await this.props.createShorten(this.state.url)
-		}
+		await this.props.createShorten(this.state.url, this.state.slug)
 		this.setState({ loading: false })
 		if (this.props.success) {
-			this.setState({ displayModal: true, type: 'shorten' })
+			this.setState({ displayModal: true, type: "shorten" })
 		} else {
 			this.setState({ displayWarning: true })
 		}
@@ -34,13 +30,13 @@ class Landing extends Component {
 		await this.props.getOriginal(this.state.url)
 		this.setState({ loading: false })
 		if (this.props.success) {
-			this.setState({ displayModal: true, type: 'original' })
+			this.setState({ displayModal: true, type: "original" })
 		} else {
 			this.setState({ displayWarning: true })
 		}
 	}
 	closeModal = () => {
-		this.setState({ displayModal: false, type: '' })
+		this.setState({ displayModal: false, type: "" })
 	}
 	closeWarning = () => {
 		this.setState({ displayWarning: false })
@@ -74,10 +70,10 @@ class Landing extends Component {
 			return null
 		}
 	}
-	handleChange = event => {
+	handleChange = (event) => {
 		this.setState({ url: event.target.value })
 	}
-	handleChangeSlug = event => {
+	handleChangeSlug = (event) => {
 		this.setState({ slug: event.target.value })
 	}
 	render() {
@@ -104,18 +100,12 @@ class Landing extends Component {
 				</div>
 				<div id="actionBtn">
 					<span className="btnSpace">
-						<button
-							className="myBtn ui blue button"
-							onClick={this.getShorten}
-						>
+						<button className="myBtn ui blue button" onClick={this.getShorten}>
 							Get shorten url
 						</button>
 					</span>
 					<span className="btnSpace">
-						<button
-							className="myBtn ui grey button"
-							onClick={this.getOriginal}
-						>
+						<button className="myBtn ui grey button" onClick={this.getOriginal}>
 							Retrieve original url
 						</button>
 					</span>
@@ -127,7 +117,7 @@ class Landing extends Component {
 	}
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
 	return {
 		answer: state.url.answer,
 		success: state.url.success

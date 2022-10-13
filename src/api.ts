@@ -18,6 +18,10 @@ api.post("/url", async (c) => {
 	}
 	let token
 	if (slug) {
+		if (!isValidSlug(slug)) {
+			c.status(400)
+			return c.json({ error: "slug is invalid" })
+		}
 		const existing = await getShortenURL(c.env.CSCMS_URL_SHORTENER, slug)
 		if (existing) {
 			c.status(400)
@@ -52,3 +56,7 @@ api.get("/url", async (c) => {
 })
 
 export { api }
+
+const isValidSlug = (slug: string): boolean => {
+	return !slug.includes("/")
+}

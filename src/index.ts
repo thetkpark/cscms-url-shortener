@@ -3,7 +3,11 @@ import { serveStatic } from "hono/serve-static.module"
 import * as nanoid from "nanoid"
 import { getShortenURL, saveShortenURL, ShortenURL } from "./kv"
 
-const app = new Hono()
+interface ENV {
+	CSCMS_URL_SHORTENER: KVNamespace
+}
+
+const app = new Hono<{ Bindings: ENV }>()
 
 const generator = nanoid.customAlphabet(
 	"abcdefghijklmnopqrstuvwxyz0123456789",
@@ -34,6 +38,17 @@ app.post("/api/url", async (c) => {
 	await saveShortenURL(c.env.CSCMS_URL_SHORTENER, shortenURL)
 	c.status(201)
 	return c.json(shortenURL)
+})
+
+app.get("/:token", async (c) => {
+	const token = c.req.param("token")
+	const shortenURL = await getShortenURL(c.env.CSCMS_URL_SHORTENER, token)
+	if (!shortenURL) {
+		return c.redirect("/")
+	}
+	shortenURL.visit++
+	await saveShortenURL(c.env.CSCMS_URL_SHORTENER, shortenURL)
+	return c.redirect(shortenURL.url)
 })
 
 app.get("*", serveStatic({ root: "./" }))

@@ -11,6 +11,10 @@
   "license": "ISC",
   "dependencies": {
     "hono": "^2.2.3",
-    "nanoid": "^4.0.0"
+    "nanoid": "^4.0.0",
+    "validator": "^13.7.0"
+  },
+  "devDependencies": {
+    "@types/validator": "^13.7.7"
   }
 }

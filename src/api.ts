@@ -1,6 +1,7 @@
 import { Hono } from "hono"
 import { cors } from "hono/cors"
 import { customAlphabet } from "nanoid"
+import isURL from "validator/lib/isURL"
 import { ENV } from "./index"
 import { getShortenURL, ShortenURL, saveShortenURL } from "./kv"
 
@@ -11,9 +12,9 @@ const generator = customAlphabet("abcdefghijklmnopqrstuvwxyz0123456789", 5)
 
 api.post("/url", async (c) => {
 	const { url, slug } = await c.req.json()
-	if (!url) {
+	if (!url || !isURL(url)) {
 		c.status(400)
-		return c.json({ error: "url is required" })
+		return c.json({ error: "valid url is required" })
 	}
 	let token
 	if (slug) {

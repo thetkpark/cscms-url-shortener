@@ -43,9 +43,7 @@ app.post("/api/url", async (c) => {
 app.get("/:token", async (c) => {
 	const token = c.req.param("token")
 	const shortenURL = await getShortenURL(c.env.CSCMS_URL_SHORTENER, token)
-	if (!shortenURL) {
-		return c.redirect("/")
-	}
+	if (!shortenURL) return c.redirect("/")
 	shortenURL.visit++
 	await saveShortenURL(c.env.CSCMS_URL_SHORTENER, shortenURL)
 	return c.redirect(shortenURL.url)

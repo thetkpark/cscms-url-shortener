@@ -2,5 +2,9 @@ name = "cscms-url-shortener"
 main = "src/index.ts"
 compatibility_date = "2022-10-02"
 
+kv_namespaces = [
+    { binding = "CSCMS_URL_SHORTENER", preview_id = "48be1c603312461392a6204a86036952", id = "0a04544be36e41b69362e5c5262f7a39" }
+]
+
 [site]
 bucket = "./client/build"

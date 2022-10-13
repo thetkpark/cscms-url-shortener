@@ -44,18 +44,18 @@ export const getOriginal = (url) => async (dispatch) => {
 		answer: null,
 		success: false
 	}
-	if (url.length === 6) {
-		try {
-			const res = await axios.get("/api/originalUrl", {
-				params: {
-					url: url
-				}
-			})
-			response.answer = res.data.url
-			response.success = true
-		} catch (error) {
-			console.log(error)
-		}
+
+	try {
+		const res = await axios.get("/api/url", {
+			params: {
+				token: url
+			}
+		})
+		response.answer = res.data.url
+		response.success = true
+	} catch (error) {
+		console.log(error)
 	}
+
 	dispatch({ type: GET_ORIGINAL, payload: response })
 }

@@ -10,15 +10,14 @@ export interface ENV {
 const app = new Hono<{ Bindings: ENV }>()
 
 app.route("/api", api)
-app.get("/:token", async (c) => {
-	const token = c.req.param("token")
+app.get("*", serveStatic({ root: "./" }))
+app.notFound(async (c) => {
+	const token = c.req.url.split("/").pop()
+	if (!token) return c.redirect("/")
 	const shortenURL = await getShortenURL(c.env.CSCMS_URL_SHORTENER, token)
 	if (!shortenURL) return c.redirect("/")
 	shortenURL.visit++
 	await saveShortenURL(c.env.CSCMS_URL_SHORTENER, shortenURL)
 	return c.redirect(shortenURL.url)
 })
-
-app.get("*", serveStatic({ root: "./" }))
-
 export default app

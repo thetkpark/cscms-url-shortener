@@ -8,3 +8,6 @@ kv_namespaces = [
 
 [site]
 bucket = "./client/build"
+
+[build]
+command = "yarn --cwd client install && yarn --cwd client build"

@@ -12,7 +12,7 @@ export const createShorten = (url, slug) => async (dispatch) => {
 		response.answer = host + res.data.token
 		response.success = true
 	} catch (error) {
-		response.answer = error.data.error
+		console.log(error)
 	}
 	dispatch({ type: CREATE_SHORTEN, payload: response })
 }
@@ -35,7 +35,7 @@ export const getOriginal = (url) => async (dispatch) => {
 		response.answer = res.data.url
 		response.success = true
 	} catch (error) {
-		response.answer = error.data.error
+		console.log(error)
 	}
 
 	dispatch({ type: GET_ORIGINAL, payload: response })

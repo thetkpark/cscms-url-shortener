@@ -16,7 +16,13 @@ jobs:
         with:
           node-version: '18.x'
       - name: install wrangler
-        run: npm i -g wrangler
+        run: npm i -g wrangler pnpm yarn
+      - name: install worker dependencies
+        run: pnpm i
+      - name: install client dependencies
+        run: yarn --cwd client install 
+      - name: install client dependencies
+        run: yarn --cwd client build
       - name: deploy
         run: wrangler deploy
         env:

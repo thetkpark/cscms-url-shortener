@@ -2,10 +2,10 @@ import { Hono } from "hono"
 import { cors } from "hono/cors"
 import { customAlphabet } from "nanoid"
 import isURL from "validator/lib/isURL"
-import { ENV } from "./index"
+import { Bindings } from "./index"
 import { getShortenURL, ShortenURL, saveShortenURL } from "./kv"
 
-const api = new Hono<{ Bindings: ENV }>()
+const api = new Hono<{ Bindings: Bindings }>()
 api.use("*", cors())
 
 const generator = customAlphabet("abcdefghijklmnopqrstuvwxyz0123456789", 5)
